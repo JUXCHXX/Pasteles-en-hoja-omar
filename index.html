@@ -52,7 +52,8 @@ img { display: block; max-width: 100%; height: auto; }
 a { text-decoration: none; color: inherit; }
 ul { list-style: none; }
 button { font-family: inherit; }
-.container { width: 100%; max-width: var(--max-w); margin: 0 auto; padding: 0 24px; }
+.container { width: 100%; max-width: var(--max-w); margin: 0 auto; padding: 0 clamp(18px, 4vw, 24px); }
+body.menu-open { overflow: hidden; }
 ::selection { background: var(--green-dark); color: var(--yellow); }
 .scroll-progress { position: fixed; top: 0; left: 0; height: 3px; width: 0%; background: linear-gradient(90deg, var(--yellow), var(--gold), var(--green)); z-index: 200; transition: width .1s linear; box-shadow: 0 0 12px rgba(245,200,66,.6); }
 
@@ -191,29 +192,27 @@ button { font-family: inherit; }
 .menu-header-left { display: flex; flex-direction: column; gap: 10px; max-width: 700px; }
 .menu-header-left .display-title { font-size: clamp(40px, 6vw, 76px); color: var(--green-dark); text-shadow: 3px 3px 0 rgba(200,151,58,.3); }
 .menu-header-left .script-title { font-size: 30px; color: var(--green); }
-.menu-tabs { display: flex; gap: 10px; margin-bottom: 36px; flex-wrap: wrap; }
+.menu-tabs { display: flex; gap: 10px; margin-bottom: 36px; flex-wrap: nowrap; overflow-x: auto; padding-bottom: 8px; scrollbar-width: none; }
+.menu-tabs::-webkit-scrollbar { display: none; }
 .menu-tab { padding: 12px 24px; border-radius: var(--r-pill); font-size: 13px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; border: 2px solid var(--green-dark); background: transparent; color: var(--green-dark); transition: all .3s var(--ease-out); }
+.menu-tab { flex: 0 0 auto; }
 .menu-tab:hover { transform: translateY(-2px); }
 .menu-tab.active { background: linear-gradient(135deg, var(--green-dark), var(--green)); color: var(--yellow); box-shadow: 0 8px 20px rgba(13,61,26,.3); }
 .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 20px; }
-.menu-card { background: var(--white); border: 2px solid rgba(13,61,26,.14); border-radius: var(--r-lg); overflow: hidden; display: flex; flex-direction: column; transition: all .4s var(--ease-out); box-shadow: var(--shadow-sm); position: relative; }
+.menu-card { background: rgba(255,255,255,.96); border: 2px solid rgba(13,61,26,.14); border-radius: var(--r-lg); overflow: hidden; display: flex; flex-direction: column; transition: all .4s var(--ease-out); box-shadow: var(--shadow-sm); position: relative; height: 100%; }
 .menu-card::before { content: ''; position: absolute; inset: 0 0 auto 0; height: 5px; background: linear-gradient(90deg, var(--green-dark), var(--gold), var(--yellow)); z-index: 3; }
 .menu-card:hover { transform: translateY(-10px); box-shadow: var(--shadow-lg), 0 0 40px rgba(245,200,66,.25); border-color: var(--gold); }
-.menu-card-img { width: 100%; height: 200px; overflow: hidden; background: linear-gradient(135deg, var(--green-light), rgba(245,200,66,.2)); position: relative; display: flex; align-items: center; justify-content: center; font-size: 80px; }
+.menu-card-img { width: 100%; aspect-ratio: 4 / 3; overflow: hidden; background: linear-gradient(135deg, var(--green-light), rgba(245,200,66,.2)); position: relative; display: flex; align-items: center; justify-content: center; font-size: 80px; }
+.menu-card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s var(--ease-out); }
 .menu-card-img .emoji { filter: drop-shadow(0 10px 20px rgba(13,61,26,.25)); transition: transform .5s var(--ease-spring); }
+.menu-card:hover .menu-card-img img { transform: scale(1.06); }
 .menu-card:hover .menu-card-img .emoji { transform: scale(1.15) rotate(-8deg); }
 .temporada-badge { position: absolute; top: 14px; left: 14px; background: linear-gradient(135deg, var(--gold), var(--gold-shine)); color: var(--green-dark); font-size: 10px; font-weight: 800; padding: 5px 12px; border-radius: var(--r-pill); letter-spacing: 1px; text-transform: uppercase; z-index: 2; box-shadow: 0 4px 12px rgba(200,151,58,.4); }
-.menu-card-body { padding: 18px 20px 22px; display: flex; flex-direction: column; gap: 12px; }
+.menu-card-body { padding: 20px 22px 24px; display: flex; flex-direction: column; gap: 12px; min-height: 178px; flex: 1; }
 .menu-card-name { font-family: var(--font-display); font-size: 22px; font-weight: 900; color: var(--green-dark); line-height: 1.1; }
-.menu-card-desc { font-size: 13px; color: var(--muted); line-height: 1.5; }
-.menu-card-masas { display: flex; gap: 6px; flex-wrap: wrap; }
+.menu-card-desc { font-size: 13px; color: var(--muted); line-height: 1.65; }
+.menu-card-masas { display: flex; gap: 8px; flex-wrap: wrap; margin-top: auto; padding-top: 4px; }
 .masa-tag { font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: var(--r-pill); background: var(--green-light); color: var(--green-dark); border: 1px solid var(--green); }
-.menu-card-prices { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 4px; }
-.price-block { background: linear-gradient(135deg, var(--yellow-light), var(--yellow)); border: 1.5px solid var(--yellow-dark); border-radius: var(--r-sm); padding: 10px 12px; text-align: center; }
-.price-block .masa-label { font-size: 9px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; color: var(--green); margin-bottom: 4px; }
-.price-block .price-row { display: flex; flex-direction: column; gap: 2px; }
-.price-block .price-row .plabel { font-size: 9px; font-weight: 700; color: var(--green); opacity: .75; }
-.price-block .price-row .p6, .price-block .price-row .p12 { font-size: 14px; font-weight: 900; color: var(--green-dark); line-height: 1.2; }
 .payment-note { margin-top: 40px; background: linear-gradient(135deg, var(--green-dark), var(--green)); color: var(--yellow); border-radius: var(--r-lg); padding: 22px 30px; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; box-shadow: var(--shadow-md); border: 2px solid var(--gold); position: relative; overflow: hidden; }
 .payment-note::before { content: ''; position: absolute; inset: 0; background: linear-gradient(120deg, transparent, rgba(245,200,66,.15), transparent); background-size: 200% 100%; animation: shimmer 4s linear infinite; }
 .payment-note .pn-icon { font-size: 36px; position: relative; z-index: 2; }
@@ -261,10 +260,6 @@ button { font-family: inherit; }
 .g-item .g-label { position: absolute; bottom: 14px; left: 14px; font-size: 13px; font-weight: 800; color: var(--yellow); text-transform: uppercase; letter-spacing: 1px; opacity: 0; transform: translateY(10px); transition: all .3s; z-index: 2; }
 .g-item:hover .g-label { opacity: 1; transform: translateY(0); }
 .g-wide { grid-column: span 2; } .g-tall { grid-row: span 2; } .g-large { grid-column: span 2; grid-row: span 2; font-size: 100px; }
-.ig-callout { margin-top: 50px; background: linear-gradient(135deg, rgba(245,200,66,.1), rgba(245,200,66,.05)); border: 1.5px solid rgba(245,200,66,.3); border-radius: var(--r-2xl); padding: 40px; text-align: center; backdrop-filter: blur(10px); }
-.ig-callout .ig-icon { font-size: 48px; margin-bottom: 12px; display: inline-block; background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
-.ig-callout .ig-handle { font-family: var(--font-display); font-size: 32px; font-weight: 900; color: var(--yellow); margin-bottom: 8px; }
-.ig-callout p { font-size: 14px; color: rgba(253,250,240,.6); margin-bottom: 24px; }
 
 /* CTA */
 .cta-section { background: radial-gradient(circle at 20% 30%, rgba(255,255,255,.4), transparent 35%), linear-gradient(135deg, var(--yellow-light) 0%, var(--yellow) 50%, var(--gold-shine) 100%); padding: var(--section-v) 0; position: relative; overflow: hidden; }
@@ -325,30 +320,103 @@ footer::before { content: ''; position: absolute; top: -4px; left: 0; right: 0; 
 .wa-float:hover { transform: scale(1.1) rotate(-8deg); }
 
 @media (max-width: 900px) {
-  .hero .container { grid-template-columns: 1fr; }
-  .hero-right { justify-content: center; min-height: 400px; }
+  .hero { min-height: auto; }
+  .hero .container { grid-template-columns: 1fr; gap: 30px; padding-top: 86px; padding-bottom: 86px; }
+  .hero-left { align-items: center; text-align: center; }
+  .hero-sub { max-width: 640px; }
+  .hero-buttons, .hero-stats { justify-content: center; }
+  .hero-right { justify-content: center; min-height: auto; }
+  .hero-visual { max-width: min(520px, 100%); }
+  .hero-delivery-badge { right: 16px; top: 20px; }
+  .hero-floating-card.fc1 { left: 12px; bottom: 26px; }
   .delivery-section .container { grid-template-columns: 1fr; }
   .delivery-right { position: static; }
-  .cta-section .container { grid-template-columns: 1fr; }
+  .menu-header { justify-content: center; text-align: center; }
+  .payment-note { justify-content: center; text-align: center; }
+  .cta-section .container { grid-template-columns: 1fr; gap: 32px; text-align: center; }
+  .cta-left { align-items: center; }
+  .cta-left p { max-width: 640px; }
   .cta-visual { margin: 0 auto; }
   .footer-inner { grid-template-columns: 1fr 1fr; }
   .gallery-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 180px; }
   .g-large { font-size: 80px; }
+  .social-card { flex: 1 1 220px; min-width: 220px; }
 }
 @media (max-width: 640px) {
   :root { --section-v: 70px; }
-  .nav-links { display: none; position: absolute; top: 72px; left: 0; right: 0; background: rgba(6,14,8,.98); flex-direction: column; padding: 16px 24px 20px; gap: 6px; border-bottom: 3px solid var(--gold); }
+  .top-nav { height: 68px; }
+  .top-nav .container { gap: 14px; }
+  .nav-logo { gap: 10px; }
+  .nav-logo-img { width: 44px; height: 44px; }
+  .nav-logo-text .top-line { font-size: 12px; }
+  .nav-logo-text .bottom-line { font-size: 18px; letter-spacing: 1px; }
+  .nav-links { display: none; position: absolute; top: 68px; left: 0; right: 0; background: rgba(6,14,8,.98); flex-direction: column; padding: 14px 18px 18px; gap: 6px; border-bottom: 3px solid var(--gold); max-height: calc(100vh - 68px); overflow-y: auto; }
   .nav-links.is-open { display: flex; }
   .nav-links a { width: 100%; padding: 12px 16px; }
+  .nav-cta .btn-primary { display: none; }
   .hamburger { display: flex; }
-  .hero-stats { gap: 20px; }
+  .hero { padding-top: 68px; }
+  .hero .container { padding-top: 28px; padding-bottom: 52px; gap: 22px; }
+  .hero-left { gap: 18px; align-items: flex-start; text-align: left; }
+  .hero-eyebrow { font-size: 22px; gap: 10px; }
+  .hero-eyebrow::before { width: 28px; }
+  .hero-title { font-size: clamp(42px, 16vw, 70px); letter-spacing: -1.2px; }
+  .hero-slogan { font-size: 24px; padding-left: 14px; }
+  .hero-sub { font-size: 15px; max-width: 100%; }
+  .hero-buttons { width: 100%; flex-direction: column; }
+  .hero-buttons a { width: 100%; justify-content: center; }
+  .hero-stats { width: 100%; gap: 14px; flex-wrap: wrap; justify-content: space-between; }
+  .hero-stat-item { flex: 1 1 96px; min-width: 96px; }
+  .hero-stat-item .num { font-size: 28px; }
+  .hero-visual { max-width: 100%; border-radius: 24px; }
+  .hero-delivery-badge { top: 14px; right: 14px; font-size: 10px; padding: 10px 14px; }
+  .hero-omar { width: 84px !important; height: 84px !important; right: -6px !important; bottom: 22px !important; }
+  .hero-scroll { display: none; }
+  .trust-band { padding: 40px 0; }
+  .trust-item { min-width: 100%; max-width: 100%; }
+  .menu-section::before, .menu-section::after { font-size: 52px; }
+  .menu-tabs { margin: 0 -2px 28px; padding-bottom: 4px; }
+  .menu-tab { padding: 11px 18px; font-size: 11px; }
+  .menu-grid { grid-template-columns: 1fr; gap: 16px; }
+  .menu-card { border-radius: 18px; }
+  .menu-card-img { aspect-ratio: 5 / 4; }
+  .menu-card-body { padding: 18px 18px 20px; min-height: auto; }
+  .temporada-badge { top: 12px; left: 12px; font-size: 9px; padding: 4px 10px; }
+  .payment-note { margin-top: 32px; padding: 20px 18px; text-align: center; justify-content: center; }
+  .payment-note .pn-icon { font-size: 28px; }
+  .delivery-left .display-title, .gallery-header .display-title, .cta-left .display-title, .social-section .display-title { font-size: clamp(32px, 10vw, 46px); }
+  .delivery-card { padding: 16px 18px; align-items: flex-start; }
+  .delivery-card:hover { transform: none; border-left-width: 5px; }
+  .delivery-frozen { flex-direction: column; align-items: flex-start; padding: 16px 18px; }
+  .delivery-zones-grid { grid-template-columns: 1fr; }
   .gallery-grid { grid-template-columns: 1fr; grid-auto-rows: 200px; }
+  .gallery-header { margin-bottom: 32px; }
   .g-wide, .g-tall, .g-large { grid-column: span 1; grid-row: span 1; }
+  .cta-left { text-align: center; align-items: center; }
+  .cta-left p { font-size: 15px; }
+  .cta-buttons { width: 100%; }
+  .cta-buttons a { width: 100%; justify-content: center; }
+  .cta-phone { justify-content: center; }
+  .cta-visual { width: min(250px, 78vw); height: min(250px, 78vw); }
+  .social-section { padding: 70px 0; }
+  .social-grid { width: 100%; }
+  .social-card { flex: 1 1 calc(50% - 10px); min-width: 0; width: calc(50% - 10px); padding: 22px 18px; }
   .footer-inner { grid-template-columns: 1fr; }
+  .footer-brand, .footer-col { text-align: center; }
+  .footer-brand p { max-width: none; }
+  .footer-logo { margin: 0 auto; }
+  .footer-col h4::after { left: 50%; transform: translateX(-50%); }
+  .footer-col ul li a:hover { padding-left: 0; }
   .footer-bottom { flex-direction: column; text-align: center; }
-  .menu-grid { grid-template-columns: 1fr; }
   .hero-floating-card.fc1 { display: none; }
-  .wa-float { width: 54px; height: 54px; font-size: 28px; }
+  .wa-float { width: 54px; height: 54px; font-size: 28px; bottom: 18px; right: 18px; }
+}
+@media (max-width: 480px) {
+  .hero-stats { flex-direction: column; align-items: stretch; }
+  .hero-stat-item { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 14px; border-radius: 16px; background: rgba(255,255,255,.28); }
+  .hero-stat-item .lbl { text-align: right; margin-top: 0; }
+  .menu-card-name { font-size: 20px; }
+  .social-card { flex-basis: 100%; width: 100%; }
 }
 </style>
 </head>
@@ -413,7 +481,7 @@ footer::before { content: ''; position: absolute; top: -4px; left: 0; right: 0; 
       <div class="hero-visual">
         <img src="hero-pasteles.jpg" alt="Pasteles en hoja" style="width:100%;height:100%;object-fit:cover;"/>
       </div>
-      <img src="omarsonrisa.png" alt="Omar sonriendo" style="position:absolute;bottom:50px;right:-20px;width:120px;height:120px;object-fit:contain;z-index:6;filter:drop-shadow(0 8px 20px rgba(0,0,0,.25));animation:float-slow 4s ease-in-out infinite;pointer-events:none;"/>
+      <img src="omarsonrisa.png" alt="Omar sonriendo" class="hero-omar" style="position:absolute;bottom:50px;right:-20px;width:120px;height:120px;object-fit:contain;z-index:6;filter:drop-shadow(0 8px 20px rgba(0,0,0,.25));animation:float-slow 4s ease-in-out infinite;pointer-events:none;"/>
       <div class="hero-floating-card fc1">
         <span class="fc-emoji">⭐</span>
         <div>
@@ -486,16 +554,6 @@ footer::before { content: ''; position: absolute; top: -4px; left: 0; right: 0; 
           <h3 class="menu-card-name">Pastel de Pollo</h3>
           <p class="menu-card-desc">El clásico, jugoso y sabroso, envuelto en hoja de plátano.</p>
           <div class="menu-card-masas"><span class="masa-tag">Plátano</span><span class="masa-tag">Yuca</span></div>
-          <div class="menu-card-prices">
-            <div class="price-block">
-              <div class="masa-label">Plátano</div>
-              <div class="price-row"><span class="plabel">6 uds</span><span class="p6">$30</span><span class="plabel">12 uds</span><span class="p12">$55</span></div>
-            </div>
-            <div class="price-block">
-              <div class="masa-label">Yuca</div>
-              <div class="price-row"><span class="plabel">6 uds</span><span class="p6">$35</span><span class="plabel">12 uds</span><span class="p12">$60</span></div>
-            </div>
-          </div>
         </div>
       </article>
 
@@ -508,16 +566,6 @@ footer::before { content: ''; position: absolute; top: -4px; left: 0; right: 0; 
           <h3 class="menu-card-name">Pastel de Pernil</h3>
           <p class="menu-card-desc">Carne de cerdo tierna sazonada con especias caseras.</p>
           <div class="menu-card-masas"><span class="masa-tag">Plátano</span><span class="masa-tag">Yuca</span></div>
-          <div class="menu-card-prices">
-            <div class="price-block">
-              <div class="masa-label">Plátano</div>
-              <div class="price-row"><span class="plabel">6 uds</span><span class="p6">$30</span><span class="plabel">12 uds</span><span class="p12">$55</span></div>
-            </div>
-            <div class="price-block">
-              <div class="masa-label">Yuca</div>
-              <div class="price-row"><span class="plabel">6 uds</span><span class="p6">$35</span><span class="plabel">12 uds</span><span class="p12">$60</span></div>
-            </div>
-          </div>
         </div>
       </article>
 
@@ -530,16 +578,6 @@ footer::before { content: ''; position: absolute; top: -4px; left: 0; right: 0; 
           <h3 class="menu-card-name">Pastel de Res</h3>
           <p class="menu-card-desc">Carne de res jugosa con el sazón especial de la casa.</p>
           <div class="menu-card-masas"><span class="masa-tag">Plátano</span><span class="masa-tag">Yuca</span></div>
-          <div class="menu-card-prices">
-            <div class="price-block">
-              <div class="masa-label">Plátano</div>
-              <div class="price-row"><span class="plabel">6 uds</span><span class="p6">$35</span><span class="plabel">12 uds</span><span class="p12">$60</span></div>
-            </div>
-            <div class="price-block">
-              <div class="masa-label">Yuca</div>
-              <div class="price-row"><span class="plabel">6 uds</span><span class="p6">$35</span><span class="plabel">12 uds</span><span class="p12">$65</span></div>
-            </div>
-          </div>
         </div>
       </article>
 
@@ -552,16 +590,6 @@ footer::before { content: ''; position: absolute; top: -4px; left: 0; right: 0; 
           <h3 class="menu-card-name">Pastel Pollo-Queso</h3>
           <p class="menu-card-desc">La combinación ganadora: pollo tierno con queso derretido.</p>
           <div class="menu-card-masas"><span class="masa-tag">Plátano</span><span class="masa-tag">Yuca</span></div>
-          <div class="menu-card-prices">
-            <div class="price-block">
-              <div class="masa-label">Plátano</div>
-              <div class="price-row"><span class="plabel">6 uds</span><span class="p6">$35</span><span class="plabel">12 uds</span><span class="p12">$60</span></div>
-            </div>
-            <div class="price-block">
-              <div class="masa-label">Yuca</div>
-              <div class="price-row"><span class="plabel">6 uds</span><span class="p6">$35</span><span class="plabel">12 uds</span><span class="p12">$65</span></div>
-            </div>
-          </div>
         </div>
       </article>
 
@@ -574,16 +602,6 @@ footer::before { content: ''; position: absolute; top: -4px; left: 0; right: 0; 
           <h3 class="menu-card-name">Pastel de Queso</h3>
           <p class="menu-card-desc">Cremoso, derretido y perfecto para los amantes del queso.</p>
           <div class="menu-card-masas"><span class="masa-tag">Plátano</span><span class="masa-tag">Yuca</span></div>
-          <div class="menu-card-prices">
-            <div class="price-block">
-              <div class="masa-label">Plátano</div>
-              <div class="price-row"><span class="plabel">6 uds</span><span class="p6">$30</span><span class="plabel">12 uds</span><span class="p12">$55</span></div>
-            </div>
-            <div class="price-block">
-              <div class="masa-label">Yuca</div>
-              <div class="price-row"><span class="plabel">6 uds</span><span class="p6">$35</span><span class="plabel">12 uds</span><span class="p12">$60</span></div>
-            </div>
-          </div>
         </div>
       </article>
 
@@ -596,16 +614,6 @@ footer::before { content: ''; position: absolute; top: -4px; left: 0; right: 0; 
           <h3 class="menu-card-name">Pastel de Vegetales</h3>
           <p class="menu-card-desc">Vegetales frescos, para los que aman lo natural.</p>
           <div class="menu-card-masas"><span class="masa-tag">Plátano</span><span class="masa-tag">Yuca</span></div>
-          <div class="menu-card-prices">
-            <div class="price-block">
-              <div class="masa-label">Plátano</div>
-              <div class="price-row"><span class="plabel">6 uds</span><span class="p6">$30</span><span class="plabel">12 uds</span><span class="p12">$55</span></div>
-            </div>
-            <div class="price-block">
-              <div class="masa-label">Yuca</div>
-              <div class="price-row"><span class="plabel">6 uds</span><span class="p6">$35</span><span class="plabel">12 uds</span><span class="p12">$60</span></div>
-            </div>
-          </div>
         </div>
       </article>
 
@@ -619,16 +627,6 @@ footer::before { content: ''; position: absolute; top: -4px; left: 0; right: 0; 
           <h3 class="menu-card-name">Pastel de Bacalao</h3>
           <p class="menu-card-desc">Auténtico bacalao sazonado, sabor del Caribe en cada bocado.</p>
           <div class="menu-card-masas"><span class="masa-tag">Plátano</span><span class="masa-tag">Yuca</span></div>
-          <div class="menu-card-prices">
-            <div class="price-block">
-              <div class="masa-label">Plátano</div>
-              <div class="price-row"><span class="plabel">6 uds</span><span class="p6">$35</span><span class="plabel">12 uds</span><span class="p12">$60</span></div>
-            </div>
-            <div class="price-block">
-              <div class="masa-label">Yuca</div>
-              <div class="price-row"><span class="plabel">6 uds</span><span class="p6">$35</span><span class="plabel">12 uds</span><span class="p12">$65</span></div>
-            </div>
-          </div>
         </div>
       </article>
 
@@ -641,16 +639,6 @@ footer::before { content: ''; position: absolute; top: -4px; left: 0; right: 0; 
           <h3 class="menu-card-name">Pastel de Berenjena</h3>
           <p class="menu-card-desc">Berenjena suave y sazonada, una opción irresistible.</p>
           <div class="menu-card-masas"><span class="masa-tag">Plátano</span><span class="masa-tag">Yuca</span></div>
-          <div class="menu-card-prices">
-            <div class="price-block">
-              <div class="masa-label">Plátano</div>
-              <div class="price-row"><span class="plabel">6 uds</span><span class="p6">$30</span><span class="plabel">12 uds</span><span class="p12">$55</span></div>
-            </div>
-            <div class="price-block">
-              <div class="masa-label">Yuca</div>
-              <div class="price-row"><span class="plabel">6 uds</span><span class="p6">$35</span><span class="plabel">12 uds</span><span class="p12">$60</span></div>
-            </div>
-          </div>
         </div>
       </article>
 
@@ -663,16 +651,6 @@ footer::before { content: ''; position: absolute; top: -4px; left: 0; right: 0; 
           <h3 class="menu-card-name">Pastel Berenjena-Queso</h3>
           <p class="menu-card-desc">Berenjena con queso fundido — una combinación que enamora.</p>
           <div class="menu-card-masas"><span class="masa-tag">Plátano</span><span class="masa-tag">Yuca</span></div>
-          <div class="menu-card-prices">
-            <div class="price-block">
-              <div class="masa-label">Plátano</div>
-              <div class="price-row"><span class="plabel">6 uds</span><span class="p6">$35</span><span class="plabel">12 uds</span><span class="p12">$60</span></div>
-            </div>
-            <div class="price-block">
-              <div class="masa-label">Yuca</div>
-              <div class="price-row"><span class="plabel">6 uds</span><span class="p6">$35</span><span class="plabel">12 uds</span><span class="p12">$65</span></div>
-            </div>
-          </div>
         </div>
       </article>
 
@@ -686,16 +664,6 @@ footer::before { content: ''; position: absolute; top: -4px; left: 0; right: 0; 
           <h3 class="menu-card-name">Camarones al Ajillo</h3>
           <p class="menu-card-desc">Camarones del Caribe al ajillo, exclusividad de la casa.</p>
           <div class="menu-card-masas"><span class="masa-tag">Plátano</span><span class="masa-tag">Yuca</span></div>
-          <div class="menu-card-prices">
-            <div class="price-block">
-              <div class="masa-label">Plátano</div>
-              <div class="price-row"><span class="plabel">6 uds</span><span class="p6">$35</span><span class="plabel">12 uds</span><span class="p12">$65</span></div>
-            </div>
-            <div class="price-block">
-              <div class="masa-label">Yuca</div>
-              <div class="price-row"><span class="plabel">6 uds</span><span class="p6">$40</span><span class="plabel">12 uds</span><span class="p12">$70</span></div>
-            </div>
-          </div>
         </div>
       </article>
 
@@ -805,12 +773,6 @@ footer::before { content: ''; position: absolute; top: -4px; left: 0; right: 0; 
         <img src="galeria-familia.jpg" alt="Hecho con amor" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;"/>
         <span class="g-label">Hecho con amor</span>
       </div>
-    </div>
-    <div class="ig-callout reveal-scale">
-      <div class="ig-icon">📷</div>
-      <div class="ig-handle">@pasteleshenhojaomar</div>
-      <p>Síguenos en Instagram para ver los pasteles del día</p>
-      <a href="https://www.instagram.com/pasteleshenhojaomar" target="_blank" class="btn-secondary">Seguir en Instagram</a>
     </div>
   </div>
 </section>
@@ -934,14 +896,20 @@ window.addEventListener('scroll', () => {
 
 const hamburger = document.getElementById('hamburger');
 const navLinks = document.getElementById('navLinks');
+const setMenuState = (isOpen) => {
+  hamburger.classList.toggle('open', isOpen);
+  navLinks.classList.toggle('is-open', isOpen);
+  document.body.classList.toggle('menu-open', isOpen);
+};
 hamburger.addEventListener('click', () => {
-  hamburger.classList.toggle('open');
-  navLinks.classList.toggle('is-open');
+  setMenuState(!navLinks.classList.contains('is-open'));
 });
 navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-  hamburger.classList.remove('open');
-  navLinks.classList.remove('is-open');
+  setMenuState(false);
 }));
+window.addEventListener('resize', () => {
+  if (window.innerWidth > 640) setMenuState(false);
+});
 
 const io = new IntersectionObserver((entries) => {
   entries.forEach(e => {
